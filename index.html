@@ -34,6 +34,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
+  $("#searchCity").val(localStorage.getItem('City History'));
 
 function getInputValue(){ document.getElementById("searchBtn").value;} 
 
@@ -43,6 +44,11 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
     //captures text value
     $(".saveBtn").click(function(e) {
     e.preventDefault();
+    var inputVal = document.getElementById("searchCity").value;
+//Stores it in local storage
+   localStorage.setItem("City History", inputVal);
+//    document.getElementById('entry1').value = localStorage.getItem('entries');
+   $("#searchCity").val(localStorage.getItem('City History'));
 
     var getInputValue = document.getElementById("searchCity").value; 
 
@@ -82,6 +88,7 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         console.log("Temperature (F): " + tempF);
       });
     });
+
   </script>
 </body>
 
