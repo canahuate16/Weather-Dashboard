@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <title>Weather Dashboard</title>
 </head>
-
 <body>
     <div class="container">
      <h1>Search for a city </h1>
@@ -18,18 +17,21 @@
           <button id = "searchBtn" class = "saveBtn">Submit</button>
 
           
+          
   <!-- Retrieved data will be dumped here -->
   <div id= "allWeatherInfo">
     <div class="city"></div>
     <div class="wind"></div>
     <div class="humidity"></div>
     <div class="temp"></div>
+    <div class= 'description'></div>
+
   <!-- Add extra div for the bonus Fahrenheit temp -->
     <div class="tempF"></div>
+
+  <!-- img-->
+    <img id='weather-img' src="" alt="Weather img">
  </div>
-
-
-
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -45,16 +47,18 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
     $(".saveBtn").click(function(e) {
     e.preventDefault();
     var inputVal = document.getElementById("searchCity").value;
-//Stores it in local storage
+    
+    //Stores it in local storage
    localStorage.setItem("City History", inputVal);
-//    document.getElementById('entry1').value = localStorage.getItem('entries');
+
+    //document.getElementById('entry1').value = localStorage.getItem('entries');
    $("#searchCity").val(localStorage.getItem('City History'));
 
     var getInputValue = document.getElementById("searchCity").value; 
 
     // Here we are building the URL we need to query the database
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
-      "q="+getInputValue+",Burundi&appid=" + APIKey;
+      "q="+getInputValue+"&appid=" + APIKey;
 
     // Here we run our AJAX call to the OpenWeatherMap API
     $.ajax({
@@ -74,6 +78,8 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         $(".city").html("<h1>" + response.name + " Weather Details</h1>");
         $(".wind").text("Wind Speed: " + response.wind.speed);
         $(".humidity").text("Humidity: " + response.main.humidity);
+        $("#weather-img").attr("src",'http://openweathermap.org/img/wn/'+ response.weather[0].icon+'@2x.png');
+        $(".description").text('Weather Details: ' + response.weather[0].description);
         
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -93,3 +99,4 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
 </body>
 
 </html>
+
