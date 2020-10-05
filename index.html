@@ -14,28 +14,34 @@
         <input type="text" id= 'searchCity'>
     
           <!-- Button triggers new movie to be added -->
-          <button id = "searchBtn" class = "saveBtn">Submit</button>
+          <button id = "searchBtn" class = "submitBtn">Submit</button>
 
           
-          
+      
   <!-- Retrieved data will be dumped here -->
   <div id= "allWeatherInfo">
+
     <div class="city"></div>
     <div class="wind"></div>
     <div class="humidity"></div>
     <div class="temp"></div>
     <div class= 'description'></div>
-
-  <!-- Add extra div for the bonus Fahrenheit temp -->
     <div class="tempF"></div>
-
-  <!-- img-->
+    <div class ='latitude'></div>
+    <div class ='longitude'></div>
     <img id='weather-img' src="" alt="Weather img">
- </div>
+ 
+  </div>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
+
+  
+  var longitude = ''
+  var latitude = ''
+ 
+
   $("#searchCity").val(localStorage.getItem('City History'));
 
 function getInputValue(){ document.getElementById("searchBtn").value;} 
@@ -44,9 +50,10 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
     var APIKey = '41e4cf88afde56f4a3760262d80139d5';
 
     //captures text value
-    $(".saveBtn").click(function(e) {
+    $(".submitBtn").click(function(e) {
     e.preventDefault();
     var inputVal = document.getElementById("searchCity").value;
+   
     
     //Stores it in local storage
    localStorage.setItem("City History", inputVal);
@@ -67,10 +74,7 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
     })
       // We store all of the retrieved data inside of an object called "response"
       .then(function(response) {
-
-        // Log the queryURL
-        console.log(queryURL);
-
+        
         // Log the resulting object
         console.log(response);
 
@@ -80,6 +84,12 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         $(".humidity").text("Humidity: " + response.main.humidity);
         $("#weather-img").attr("src",'http://openweathermap.org/img/wn/'+ response.weather[0].icon+'@2x.png');
         $(".description").text('Weather Details: ' + response.weather[0].description);
+        $(".latitude").text('Latitute is: ' + response.coord.lat);
+        $(".longitude").text('Longitude is: ' + response.coord.lon);
+
+        var latitude = document.getElementsByClassName('latitude').value;
+       console.log (latitude);
+       
         
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -94,6 +104,11 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         console.log("Temperature (F): " + tempF);
       });
     });
+
+    
+
+    
+    
 
   </script>
 </body>
