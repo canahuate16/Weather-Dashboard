@@ -82,7 +82,7 @@
   <script type="text/javascript">
 
 
-  $("#searchCity").val(localStorage.getItem('City History'));
+var cities= JSON.parse(localStorage.getItem("City_History"))|| [];
 
 function getInputValue(){ document.getElementById("searchBtn").value;} 
 
@@ -92,16 +92,17 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
     //captures text value
     $(".submitBtn").click(function(e) {
     e.preventDefault();
-    var inputVal = document.getElementById("searchCity").value;
-   
+    // $("#searchCity").val(localStorage.getItem('City_History'));
     
     //Stores it in local storage
-   localStorage.setItem("City History", inputVal);
+   
 
     //document.getElementById('entry1').value = localStorage.getItem('entries');
-   $("#searchCity").val(localStorage.getItem('City History'));
+ 
 
     var getInputValue = document.getElementById("searchCity").value; 
+    cities.push(getInputValue);
+    localStorage.setItem('City_History', JSON.stringify(cities))
 
     // Here we are building the URL we need to query the database
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
