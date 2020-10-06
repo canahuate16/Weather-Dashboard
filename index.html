@@ -33,14 +33,16 @@
  
   </div>
 
+  <div id =forecast>
+    <div class = '5dayForecast'></div>
+
+
+  </div>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
 
-  
-  var longitude = ''
-  var latitude = ''
- 
 
   $("#searchCity").val(localStorage.getItem('City History'));
 
@@ -86,22 +88,39 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         $(".description").text('Weather Details: ' + response.weather[0].description);
         $(".latitude").text('Latitute is: ' + response.coord.lat);
         $(".longitude").text('Longitude is: ' + response.coord.lon);
-
-        var latitude = document.getElementsByClassName('latitude').value;
-       console.log (latitude);
-       
-        
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-
         // add temp content to html
         $(".temp").text("Temperature (K) " + response.main.temp);
         $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
 
-        // Log the data in the console as well
-        console.log("Wind Speed: " + response.wind.speed);
-        console.log("Humidity: " + response.main.humidity);
-        console.log("Temperature (F): " + tempF);
+        var lat = (response.coord.lat);
+        var lon = (response.coord.lon);
+        var queryURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+APIKey;
+        
+        $.ajax({
+      url: queryURL,
+      method: "GET"
+      })
+      .then (function (response){
+
+          console.log (response);
+        for (var i = 0; i < response.daily.length; i++) {
+            var dailyForecast = $("<div>");
+
+            var temp =  response.daily[i].temp.day;
+
+            var p = $("<p>").text("Temperature: " + temp);
+
+            
+
+            articleDiv.prepend(p);
+            
+
+            $("#searchResults").prepend(articleDiv);
+          }
+     
+     });
       });
     });
 
