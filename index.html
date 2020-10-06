@@ -1,45 +1,83 @@
-<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <title>Weather Dashboard</title>
-</head>
-<body>
-    <div class="container">
-     <h1>Search for a city </h1>
-     <div id = 'searchResults'></div>
-    
-         <!-- Rendered Buttons will get Dumped Here  -->
-        <input type="text" id= 'searchCity'>
-    
-          <!-- Button triggers new movie to be added -->
-          <button id = "searchBtn" class = "submitBtn">Submit</button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
+    <title>Weather Dashboard</title>
+    </head>
+    <body>
 
-          
+      <!-- search bar and button-->
+
+      <div class="container">
+        <div class="row">
+            <div class="col-4 bg-light">
+                <p>Search by City Name</p>
+                <div class="input-group mb-3">
+                    <input type="text" id = 'searchCity' placeholder="Enter city name" aria-label="Enter city name">
+                    <div class="input-group-append">
+                        <button class="submitBtn" type="button" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                  
+                    
+                
+
+                 <!-- Retrieved data from Ajax call will be stored here -->
+                <div class="row">
+                  <div class="col-12">
+                    <div class="city"></div>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class= 'description'></div>
+                </div>
+            </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="tempF"></div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12">
+                    <div class="humidity"></div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12">
+                      <div class="wind"></div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 d-flex">
+                      <p id="UV-index"></p>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <img id='weather-img' src="" alt="Weather img">
+                </div>
+            </div>
+          </div>
+      </div>
       
-  <!-- Retrieved data will be dumped here -->
-  <div id= "allWeatherInfo">
 
-    <div class="city"></div>
-    <div class="wind"></div>
-    <div class="humidity"></div>
-    <div class="temp"></div>
-    <div class= 'description'></div>
-    <div class="tempF"></div>
-    <div class ='latitude'></div>
-    <div class ='longitude'></div>
-    <img id='weather-img' src="" alt="Weather img">
+      <div class="row">
+        <div class="col-12 d-flex">
+          <div id =forecast>
+        </div>
+
+      </div> <!-- prev. line 26. Makes it vertical-->
+    
  
-  </div>
-
-  <div id =forecast>
-    <div class = '5dayForecast'></div>
-
-
-  </div>
-
-
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
 
@@ -81,14 +119,14 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         console.log(response);
 
         // Transfer content to HTML
-        $(".city").html("<h1>" + response.name + " Current Weather Details</h1>");
+        $(".city").html("<h1>" + response.name);
         $(".wind").text("Wind Speed: " + response.wind.speed);
         $(".humidity").text("Humidity: " + response.main.humidity);
         $("#weather-img").attr("src",'http://openweathermap.org/img/wn/'+ response.weather[0].icon+'@2x.png');
         $(".description").text('Weather Details: ' + response.weather[0].description);
         $(".latitude").text('Latitute is: ' + response.coord.lat);
         $(".longitude").text('Longitude is: ' + response.coord.lon);
-        $("#forecast").html("<h1>" + response.name + " Weather Forecast</h1>");
+        $("#forecast").html("<h1>" + response.name + " 5 day Forecast</h1>");
 
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -113,7 +151,8 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
             var temp =  response.daily[i].temp.day;
 
             var p = $("<p>").text("Temperature: " + temp);
-
+           
+              $("#UV-index").text(response.current.uvi);
             
 
               dailyForecast.append(p);
@@ -135,4 +174,3 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
 </body>
 
 </html>
-
