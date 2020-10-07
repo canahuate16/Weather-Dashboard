@@ -149,9 +149,9 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         for (var i = 0; i < 5; i++) {
             var dailyForecast = $("#forecast");
 
-            var temp =  response.daily[i].temp.day;
+            var temp =  (response.daily[i].temp.day - 273.15) * 1.80 +32;
 
-            var p = $("<p>").text("Temperature: " + temp);
+            var p = $("<p>").text("Temperature: " + temp.toFixed(2) +'F');
            
               $("#UV-index").text(response.current.uvi);
             
