@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
+    <link rel="stylesheet" href="style.css">
     <title>Weather Dashboard</title>
     </head>
     <body>
 
+        <h1> Weather Dashboard</h1>
       <!-- search bar and button-->
 
       <div class="container">
@@ -120,14 +121,14 @@ function getInputValue(){ document.getElementById("searchBtn").value;}
         console.log(response);
 
         // Transfer content to HTML
-        $(".city").html("<h1>" + response.name);
+        $(".city").html("<h2>" + response.name);
         $(".wind").text("Wind Speed: " + response.wind.speed);
         $(".humidity").text("Humidity: " + response.main.humidity);
         $("#weather-img").attr("src",'http://openweathermap.org/img/wn/'+ response.weather[0].icon+'@2x.png');
         $(".description").text('Weather Details: ' + response.weather[0].description);
         $(".latitude").text('Latitute is: ' + response.coord.lat);
         $(".longitude").text('Longitude is: ' + response.coord.lon);
-        $("#forecast").html("<h1>" + response.name + " 5 day Forecast</h1>");
+        $("#forecast").html("<h3>" + response.name + " 5 day Forecast</h3>");
 
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
