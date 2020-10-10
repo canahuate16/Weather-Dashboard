@@ -1,98 +1,107 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="weather.css">
-    <title>Weather Dashboard</title>
-    </head>
-    <body>
-  <div id = 'currentDay'></div>
 
-       <nav class="navbar navbar-dark bg-dark">
-        <span class="navbar-brand mb-0 h1 w-100 text-center">Weather Dashboard</span>
-        
-    </nav>
+var currentTime = moment().format('HH');
 
- <!-- search bar and button //https://getbootstrap.com/docs/4.0/components/input-group/--> 
- <div class="container">
-        <div class="row">
-            <div class="col-4 bg-light">
-                <p class="search-header my-1">Search for a city</p>
-                <div class="input-group mb-3">
-                    <input id="searchCity" type="text" class="form-control" placeholder="Enter city name" aria-label="Enter city name">
-                    <div class="input-group-append">
-                        <button class="submitBtn" type="button" id="searchBtn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    </div>
+var cities = JSON.parse(localStorage.getItem("City_History")) || [];
 
-             
+function getInputValue(){ document.getElementById("searchBtn").value;} 
 
-                 <!-- Retrieved data from Ajax call will be stored here -->
-                   <div class="col-8">
-                <div class="row mr-0">
-                    <div class="col-12 border border-dark m-3 rounded">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="city"></div>
-                  </div>
-              </div>
 
-              <div class="row">
-                <div class="col-12">
-                  <div class= 'description'></div>
-                </div>
-            </div>
 
-                <div class="row">
-                  <div class="col-12">
-                    <div class="tempF"></div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12">
-                    <div class="humidity"></div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12">
-                      <div class="wind"></div>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12 d-flex">
-                      <p id="UV-index"></p>
-                  </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <img id='weather-img' src="" alt="Weather img">
-                </div>
-            </div>
-          </div>
-      </div>
-      
+//capture current day/time
+function getHeaderDate() {
+    var currentHeaderDate = moment().format('MMMM Do YYYY, hh:mm:');
+    $("#currentDay").text(currentHeaderDate);
+}
+// loads header date
+getHeaderDate();
 
-      <div class="row">
-        <div class="col-12 d-flex">
-          <div id =forecast>
-             <img id='forecast-img' src="" alt="Weather img">
-        </div>
 
-      </div> 
+    // This is our API key
+    var APIKey = '41e4cf88afde56f4a3760262d80139d5';
+
+    //captures text value
+    $(".submitBtn").click(function(e) {
+    e.preventDefault();
+    // $("#searchCity").val(localStorage.getItem('City_History'));
     
+    //Stores it in local storage
+   
+
+    //document.getElementById('entry1').value = localStorage.getItem('entries');
  
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script><script type="text/javascript" src="script.js"></script>
-  <script src="weather.js"></script>
-  
 
+    var getInputValue = document.getElementById("searchCity").value; 
+    cities.push(getInputValue);
+    localStorage.setItem('City_History', JSON.stringify(cities))
 
+    // Here we are building the URL we need to query the database
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+      "q="+getInputValue+"&appid=" + APIKey;
 
-</body>
+    // Here we run our AJAX call to the OpenWeatherMap API
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    })
+      // We store all of the retrieved data inside of an object called "response"
+      .then(function(response) {
+        
+        // Log the resulting object
+        console.log(response);
 
-</html>
+        // Transfer content to HTML
+        $(".city").html("<h2>" + response.name);
+        $(".wind").text("Wind Speed: " + response.wind.speed);
+        $(".humidity").text("Humidity: " + response.main.humidity);
+        $("#weather-img").attr("src",'http://openweathermap.org/img/wn/'+ response.weather[0].icon+'@2x.png');
+        $(".description").text('Weather Details: ' + response.weather[0].description);
+        $(".latitude").text('Latitute is: ' + response.coord.lat);
+        $(".longitude").text('Longitude is: ' + response.coord.lon);
+          $("#forecast").html("<h3>" + response.name + " 5 day Forecast</h3>");
+            
+
+        // Convert the temp to fahrenheit
+        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+        // add temp content to html
+        $(".temp").text("Temperature (K) " + response.main.temp);
+        $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+
+        var lat = (response.coord.lat);
+        var lon = (response.coord.lon);
+        var queryURL = 'https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid='+APIKey;
+        
+        $.ajax({
+      url: queryURL,
+      method: "GET"
+      })
+      .then (function (response){
+
+          console.log (response);
+        for (var i = 0; i < 5; i++) {
+            var dailyForecast = $("#forecast");
+          
+            var temp =  (response.daily[i].temp.day - 273.15) * 1.80 +32;
+            var p = $("<p>").text("Temperature: " + temp.toFixed(2) + 'F');
+            var image = $ ('<img>')
+
+             $(image).attr("src",'http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png');
+            // console.log(forecastImg);
+            console.log(response.daily[i].weather[0].icon);
+              $("#UV-index").text(response.current.uvi);
+            
+            dailyForecast.append(image);
+              dailyForecast.append(p);
+            
+
+            $("#searchResults").append(dailyForecast);
+          }
+     
+     });
+      });
+    });
+
+    
+
+    
+    
+
