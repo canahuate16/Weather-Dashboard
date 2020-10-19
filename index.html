@@ -19,98 +19,49 @@
   <body>
     <div id="currentDay"></div>
 
-    <nav class="navbar navbar-dark bg-dark">
-      <span class="navbar-brand mb-0 h1 w-100 text-center"
-        >Weather Dashboard</span
-      >
-    </nav>
-
     <!-- search bar and button //https://getbootstrap.com/docs/4.0/components/input-group/-->
-    <div class="container">
+
+    <header class="container-fluid text-center text-white bg-dark p-2">
+      <h1>Weather Dashboard</h1>
+    </header>
+
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-4 bg-light">
-          <p class="search-header my-1">Search for a city</p>
-          <div class="input-group mb-3">
-            <input
-              id="searchCity"
-              type="text"
-              class="form-control"
-              placeholder="Enter city name"
-              aria-label="Enter city name"
-            />
-            <div class="input-group-append">
-              <button class="submitBtn" type="button" id="searchBtn">
-                <i class="fas fa-search"></i>
-              </button>
+        <aside class="col-lg-3 bg-light">
+          <h5 class="mt-1">Search for a City:</h5>
+          <div class="form-inline form-group">
+            <input class="form-control" type="text" id="searchCity" />
+            <button class="btn btn-primary submitBtn" id="searchBtn">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </aside>
+
+        <div class="col-8">
+          <div class="row">
+            <div class="col-12 border border-dark mt-3 rounded">
+              <div class="row">
+                <div class="col-12">
+                  <div class="city"></div>
+                </div>
+              </div>
+              <div class="description"></div>
+              <div class="tempF"></div>
+              <div class="humidity"></div>
+              <div class="wind"></div>
+              <img id="weather-img" src="" alt="" />
             </div>
           </div>
 
-          <!-- Retrieved data from Ajax call will be stored here -->
           <div class="col-8">
-            <div class="row mr-0">
-              <div class="col-12 border border-dark m-3 rounded">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="city"></div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-12">
-                    <div class="description"></div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-12">
-                    <div class="tempF"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="humidity"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <div class="wind"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12 d-flex">
-                    <p id="UV-index"></p>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <img id="weather-img" src="" alt="Weather img" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12"></div>
-            </div>
-            <div class="row">
-              <div id="forecast" class="row">
-                <img id="forecast-img" alt="Weather img" />
-              </div>
+            <h3>5-Day Forecast</h3>
+            <div id="forecast" class="row m-3">
+              <div id="forecast-img"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <div class = 'container2'> 
-      <div class="row">
-        <div class="col-12">
-          <div id="forecast">
-            <img id="forecast-img" alt="Weather img" />
-          </div>
-        </div>
-      </div>
-    </div>
-    </div> -->
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
