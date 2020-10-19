@@ -57,7 +57,7 @@ getHeaderDate();
         $(".description").text('Weather Details: ' + response.weather[0].description);
         $(".latitude").text('Latitute is: ' + response.coord.lat);
         $(".longitude").text('Longitude is: ' + response.coord.lon);
-          $("#forecast").html("<h3>" + response.name + " 5 day Forecast</h3>");
+        // $("#forecast").html("<h3>" + response.name + " 5 day Forecast</h3>");
             
 
         // Convert the temp to fahrenheit
@@ -87,7 +87,7 @@ getHeaderDate();
              $(image).attr("src",'http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png');
             // console.log(forecastImg);
             console.log(response.daily[i].weather[0].icon);
-              $("#UV-index").text(response.current.uvi);
+            
             
             dailyForecast.append(image);
               dailyForecast.append(p);
@@ -101,7 +101,3 @@ getHeaderDate();
     });
 
     
-
-    
-    
-
